@@ -30,6 +30,17 @@ Project-local agent skill:
   including current official vendor documentation, site/docs parity, release
   metadata, and explicit contributor credit. Use it for PR and release work;
   its release-note and attribution gates are mandatory.
+- `.agents/skills/tlc-spec-driven/SKILL.md` — adaptive feature workflow from
+  specification through implementation and independent validation. Use it for
+  feature planning, multi-step implementation, or spec-backed verification;
+  it creates `.specs/` artifacts lazily and keeps remote actions opt-in.
+
+When using TLC here, repository invariants override its generic one-file task
+heuristic: implementation, tests, synchronized maturity-model docs, generated
+artifacts, and a required changeset form one cohesive task when they must land
+together. Keep `pr-release-audit` as the authority for PR and release gates.
+If the host cannot dispatch an independent verifier, use TLC's standalone
+fallback in an isolated worktree; never mutate the real tree for fault injection.
 
 ## Build & test
 
@@ -41,6 +52,9 @@ Project-local agent skill:
 - `npm run docs:build` — builds the guide; must pass (dead links fail it).
 - `npm run bench` — scan-time benchmark against a synthetic large repo; use it
   before/after touching `packages/cli/src/scan.ts`.
+- `python -m unittest discover -s .agents/skills/tlc-spec-driven/tests -v` —
+  regression tests for the vendored TLC validators; run after changing or
+  updating that skill.
 - Tests MUST pass before any commit.
 
 ## Non-negotiable conventions
