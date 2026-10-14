@@ -23,7 +23,7 @@ function ciFiles(ctx: ScanContext): string[] {
 const CI_COMMAND_KEYS = {
   workflow: ['run'],
   gitlab: ['script', 'before_script', 'after_script'],
-  azure: ['script', 'bash', 'pwsh', 'powershell'],
+  azure: ['script', 'bash', 'pwsh', 'powershell', 'command', 'customCommand'],
   bitbucket: ['script', 'after-script'],
   cloudbuild: ['args', 'entrypoint', 'script'],
 } as const;
@@ -64,7 +64,7 @@ function extractYamlCommands(content: string, keys: readonly string[], emptyValu
 function extractJenkinsCommands(content: string): string {
   const commands: string[] = [];
   const shellStep =
-    /\bsh\s*(?:\(\s*(?:script\s*:\s*)?)?(?:'''([\s\S]*?)'''|"""([\s\S]*?)"""|'([^']*)'|"([^"]*)")/g;
+    /\b(?:sh|bat|powershell|pwsh)\s*(?:\(\s*(?:[^)]*?\bscript\s*:\s*)?)?(?:'''([\s\S]*?)'''|"""([\s\S]*?)"""|'([^']*)'|"([^"]*)")/g;
   for (const match of content.matchAll(shellStep)) {
     commands.push(match[1] ?? match[2] ?? match[3] ?? match[4] ?? '');
   }

@@ -606,7 +606,7 @@ describe('ci checks', () => {
   });
 
   test('CI-02 and CI-03 inspect a nested pipeline file', async () => {
-    const ctx = fakeContext({ 'backend/Jenkinsfile': 'sh "npm test"\nsh "npm run lint"' });
+    const ctx = fakeContext({ 'backend/Jenkinsfile': 'bat "npm test"\npowershell(script: "npm run lint")' });
     expect((await check('CI-02')).run(ctx).passed).toBe(true);
     expect((await check('CI-03')).run(ctx).passed).toBe(true);
   });
@@ -646,6 +646,13 @@ describe('ci checks', () => {
       expect((await check('CI-02')).run(ctx).passed, file).toBe(true);
       expect((await check('CI-03')).run(ctx).passed, file).toBe(true);
     }
+  });
+
+  test('CI-02 recognizes an Azure DotNetCoreCLI test task', async () => {
+    const ctx = fakeContext({
+      'azure-pipelines.yml': 'steps:\n  - task: DotNetCoreCLI@2\n    inputs:\n      command: test',
+    });
+    expect((await check('CI-02')).run(ctx).passed).toBe(true);
   });
 
   test('CI-03 ignores the CircleCI run step name when its command does not lint', async () => {
