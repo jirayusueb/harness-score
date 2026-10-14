@@ -25,7 +25,7 @@ const CI_COMMAND_KEYS = {
   gitlab: ['script', 'before_script', 'after_script'],
   azure: ['script', 'bash', 'pwsh', 'powershell'],
   bitbucket: ['script', 'after-script'],
-  cloudbuild: ['args', 'entrypoint'],
+  cloudbuild: ['args', 'entrypoint', 'script'],
 } as const;
 
 function extractYamlCommands(content: string, keys: readonly string[], emptyValueIsBlock = true): string {

@@ -701,6 +701,14 @@ describe('ci checks', () => {
     expect((await check('CI-03')).run(ctx).passed).toBe(true);
   });
 
+  test('CI-02 and CI-03 recognize Cloud Build script fields', async () => {
+    const ctx = fakeContext({
+      'cloudbuild/test/test.yml': 'steps:\n  - name: node:20\n    script: npm test && npm run lint',
+    });
+    expect((await check('CI-02')).run(ctx).passed).toBe(true);
+    expect((await check('CI-03')).run(ctx).passed).toBe(true);
+  });
+
   test('CI-01 does not match a filename that merely ends with a CI file name', async () => {
     const ctx = fakeContext({ 'docs/not-a-Jenkinsfile': 'x', 'docs/Jenkinsfile.md': 'x' });
     expect((await check('CI-01')).run(ctx).passed).toBe(false);
