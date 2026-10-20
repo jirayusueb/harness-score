@@ -242,7 +242,7 @@ export const sensorChecks: Check[] = [
       if (hasDep(pkg, 'prettier') || hasDep(pkg, '@biomejs/biome') || hasDep(pkg, 'oxfmt'))
         evidence.push('formatter in devDependencies');
       if (ctx.matching(/(^|\/)biome\.jsonc?$/).length > 0) evidence.push('biome (formats + lints)');
-      if (ctx.matching(/(^|\/)(\.oxfmtrc\.jsonc?|oxfmt\.config\.ts)$/).length > 0) {
+      if (ctx.matching(/(^|\/)(\.oxfmtrc\.jsonc?|oxfmt\.config\.m?ts)$/).length > 0) {
         evidence.push('oxfmt configuration');
       }
       if (pyprojectHas(ctx, '[tool.black') || pyprojectHas(ctx, '[tool.ruff')) {

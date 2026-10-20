@@ -1198,7 +1198,7 @@ describe('sensor checks', () => {
   });
 
   test('SNS-04 passes with an oxfmt config file or oxfmt in devDependencies', async () => {
-    for (const file of ['.oxfmtrc.json', '.oxfmtrc.jsonc', 'oxfmt.config.ts']) {
+    for (const file of ['.oxfmtrc.json', '.oxfmtrc.jsonc', 'oxfmt.config.ts', 'oxfmt.config.mts']) {
       const result = (await check('SNS-04')).run(fakeContext({ [file]: '{}' }));
       expect(result.passed).toBe(true);
       expect(result.evidence).toContain('oxfmt configuration');
